@@ -1,0 +1,88 @@
+<div class="container">
+	<div class="row">
+		<div class="col-md-12">
+			<div class="well well-sm">
+				<form class="form-horizontal" id="publicar">
+						<fieldset>
+								<legend class="text-center header">Dejanos tu noticia sobre fútbol o tenis</legend>
+
+								<div class="form-group pt-3">
+										<span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+										<div class="col-md-8">
+												<input id="titulo" name="titulo" type="text" placeholder="Título" class="form-control">
+										</div>
+								<div class="form-group pt-3">
+										<span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+										<div class="col-md-8">
+												<input id="contenido" name="contenido" type="text" placeholder="Contenido" class="form-control">
+										</div>
+								</div>
+								<div class="form-group pt-3">
+										<span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+										<div class="col-md-8">
+												<label for="categoria" type="text" placeholder="Categoría" class="form-control">Categoría</label>
+												<select name="categoria" id="categoria">
+														{{#each categorias}}
+														<Option value="{{this.id}}">{{this.nombre}}</Option>
+														{{/each}}
+												</select>
+
+										</div>
+								</div>
+
+								<div class="form-group pt-3">
+										<span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+										<div class="col-md-8">
+												<input id="imagen" name="imagen" type="file" placeholder="Imagen" class="form-control">
+										</div>
+								</div>
+
+							
+								<div class="form-group">
+										<div class="col-md-12 text-center pt-3">
+												<button type="submit" class="btn btn-primary btn-lg">Submit</button>
+										</div>
+								</div>
+						</fieldset>
+				</form>
+			</div>
+		</div>
+	</div>
+</div>
+
+<script>
+
+const publicacion = document.getElementById('publicar');
+
+publicacion.addEventListener("submit", (event) => {
+	event.preventDefault();
+  
+	const headers = new Headers();
+	headers.append("authorization", "Bearer " + localStorage.getItem("jwt"));
+
+	fetch("http://localhost:3000/api/publicar", {
+		method: "post",
+		headers,
+		body: new FormData(publicacion),
+		redirect: "follow"
+	})
+  .then(response => {
+		if (response.status == 413) {
+			return alert("Imagen supera el limite permitido")
+		}
+		return response.json()})
+  .then(data => {		
+		if(data.code == 200){
+			publicacion.reset();
+			alert(data.message);
+			location.href = '/';
+		}else{
+			alert(data.message);
+		}
+	})
+	.catch(err => {
+		console.error('Error de la carga:',err);   
+	})
+})
+
+</script>

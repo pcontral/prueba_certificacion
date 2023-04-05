@@ -1,0 +1,84 @@
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="well well-sm">
+                <form class="form-horizontal" id="registro">
+                    <fieldset>
+                        <legend class="text-center header">Registro</legend>
+
+                        <div class="form-group pt-3">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                            <div class="col-md-8">
+                                <input id="registroNombre" name="name" type="text" placeholder="Nombre" class="form-control">
+                            </div>
+                        </div>
+                        <div class="form-group pt-3">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-user bigicon"></i></span>
+                            <div class="col-md-8">
+                                <input id="registroEmail" name="registroEmail" type="text" placeholder="Email" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group pt-3">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-envelope-o bigicon"></i></span>
+                            <div class="col-md-8">
+                                <input id="registroPass1" name="registroPass1" type="password" placeholder="Password" class="form-control">
+                            </div>
+                        </div>
+
+                        <div class="form-group pt-3">
+                            <span class="col-md-1 col-md-offset-2 text-center"><i class="fa fa-phone-square bigicon"></i></span>
+                            <div class="col-md-8">
+                                <input id="registroPass2" name="registroPass2" type="password" placeholder="Confirmar password" class="form-control">
+                            </div>
+                        </div>
+
+                     
+                        <div class="form-group">
+                            <div class="col-md-12 text-center pt-3">
+                                <button type="submit" class="btn btn-primary btn-lg">Submit</button>
+                            </div>
+                        </div>
+                    </fieldset>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    const formulario = document.getElementById('registro')
+
+    formulario.addEventListener("submit", (event) => {
+              event.preventDefault();
+        if(registroPass1.value !== registroPass2.value){
+            return alert("Password no coincide.")
+        }
+
+        const headers = new Headers();
+        headers.append("Content-Type", "application/json");
+        let nuevoProducto = {
+
+            nombre:registroNombre.value,
+            email:registroEmail.value,
+            password:registroPass1.value,
+
+
+        }
+       // console.log(nuevoProducto)
+
+        fetch("http://localhost:3000/usuario", {
+            method: "post",
+            headers,
+            body: JSON.stringify(nuevoProducto),
+            redirect: "follow"
+        })
+  .then(response => response.json())
+  .then(response =>  (response))
+
+    .catch(err => console.error(err));
+      alert("Usuario registrado con exito");
+       location.href = "/login";
+formulario.reset();     
+                } )
+</script>

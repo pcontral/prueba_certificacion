@@ -1,0 +1,69 @@
+<section class="vh-100">
+  <div class="container py-5  ">
+    <div class="row d-flex justify-content-center align-items-center h-100 ">
+      <div class="col-12 col-md-8 col-lg-6 col-xl-5">
+        <div class="card bg-dark text-white border-danger" style="border-radius: 2rem;">
+          <div class="card-body p-5 text-center">
+            <div class="mb-md-5 mt-md-4 pb-5">
+              <h2 class="fw-bold mb-2 text-uppercase">Login</h2>
+             <p class="text-white-50 mb-5">¡ Por favor, introduce tu usuario y contraseña !</p>
+          <form id="ingresarPag">            
+              <div class="form-outline form-white ">
+                <input type="email" id="ingresarEmail" class="form-control form-control-lg" />
+                <label class="form-label" for="typeEmailX">Email</label>
+              </div>
+
+              <div class="form-outline form-white mb-4">
+                <input type="password" id="ingresarPass1" class="form-control form-control-lg" />
+                <label class="form-label" for="typePasswordX">Password</label>
+              </div>
+                 <button class="btn btn-outline-light btn-lg px-5" type="submit">Ingresar</button>
+               </div>
+          </form>  
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  const formulario = document.getElementById('ingresarPag')
+
+    formulario.addEventListener("submit", (event) => {
+              event.preventDefault();
+        
+        const headers = new Headers();
+        headers.append("Content-Type", "application/json");
+        let nuevoProducto = {
+
+            email:ingresarEmail.value,
+            password:ingresarPass1.value,
+
+
+        }
+       // console.log(nuevoProducto)
+
+        fetch("http://localhost:3000/login", {
+            method: "post",
+            headers,
+            body: JSON.stringify(nuevoProducto),
+            redirect: "follow"
+        })
+  .then(response => response.json())
+  .then(response =>  {
+    if(response.code == 200){
+            alert("Usuario autenticado con éxito")
+            localStorage.setItem("jwt", response.data)
+            formulario.reset();
+            location.href = "/home";
+        }else{
+            alert(response.message)
+        }
+  })
+
+    .catch(err => console.error(err));
+      
+    
+                } )
+</script>

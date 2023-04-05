@@ -1,0 +1,39 @@
+<div class="container row">
+	<h1 class="text-center">LAS NOTICIAS DE FUTBOL O TENIS DEL DIA</h1>
+{{#each publicaciones}}
+<div class="col-sm-12 col-md-4 container"> 
+	<div class="card py-4 mb-3 col-4" style="width: 18rem;">
+
+	<img src="imagen/{{this.imagen}}" class="card-img-top" alt="">
+
+	<div class="card-body d-flex flex-column h-100">
+			
+			<h5 class="card-title">{{this.titulo}}</h5>
+			<p class="card-text">{{this.contenido}}</p>
+	</div>
+			<ul class="list-group list-group-flush">
+				
+					<li class="list-group-item">{{this.id_categoria}}</li>
+					<li class="list-group-item">{{this.fecha}}</li>
+			</ul>
+            <div>
+                <i onclick="myFunction(this)" class="fa fa-thumbs-up "></i>
+            </div>
+		<div class="card-body">
+					<a href="/comentarios" class="card-link">Comentar</a>
+		</div>
+		
+</div>
+</div>
+
+<br>
+ {{/each}}
+</div>
+<br>
+
+
+<script>
+    function myFunction(x) {
+  x.classList.toggle("fa-thumbs-down");
+}
+</script>
